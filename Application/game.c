@@ -257,7 +257,7 @@ uint8_t GamePlay() {
 				if (TIMUT_stopwatch_has_X_ms_passed(&stopwatch_obstacle1, 4250)) {
 					obstacle_positions = MATH_randomise_distance_between_obstacles();
 					OBJ_init_obstacle_pair(&obstacle_pair1);
-					GFX_init_obstacle_pair_location(&obstacle_pair1, 390, obstacle_positions.obstacle_top_y, obstacle_positions.obstacle_bottom_y);
+					GFX_init_obstacle_pair_location(&obstacle_pair1, 300, obstacle_positions.obstacle_top_y, obstacle_positions.obstacle_bottom_y);
 					GFX_set_obstacle_pair_x_axis_velocity(&obstacle_pair1, -1);
 					TIMUT_stopwatch_reset(&stopwatch_obstacle1);
 					obstacle_pair1_spawned = 1;
@@ -267,7 +267,7 @@ uint8_t GamePlay() {
 				if (TIMUT_stopwatch_has_X_ms_passed(&stopwatch_obstacle2, 5250)) {
 					obstacle_positions = MATH_randomise_distance_between_obstacles();
 					OBJ_init_obstacle_pair(&obstacle_pair2);
-					GFX_init_obstacle_pair_location(&obstacle_pair2, 390, obstacle_positions.obstacle_top_y, obstacle_positions.obstacle_bottom_y);
+					GFX_init_obstacle_pair_location(&obstacle_pair2, 300, obstacle_positions.obstacle_top_y, obstacle_positions.obstacle_bottom_y);
 					GFX_set_obstacle_pair_x_axis_velocity(&obstacle_pair2, -1);
 					TIMUT_stopwatch_reset(&stopwatch_obstacle2);
 					obstacle_pair2_spawned = 1;
@@ -277,7 +277,7 @@ uint8_t GamePlay() {
 				if (TIMUT_stopwatch_has_X_ms_passed(&stopwatch_obstacle3, 6250)) {
 					obstacle_positions = MATH_randomise_distance_between_obstacles();
 					OBJ_init_obstacle_pair(&obstacle_pair3);
-					GFX_init_obstacle_pair_location(&obstacle_pair3, 390, obstacle_positions.obstacle_top_y, obstacle_positions.obstacle_bottom_y);
+					GFX_init_obstacle_pair_location(&obstacle_pair3, 300, obstacle_positions.obstacle_top_y, obstacle_positions.obstacle_bottom_y);
 					GFX_set_obstacle_pair_x_axis_velocity(&obstacle_pair3, -1);
 					TIMUT_stopwatch_reset(&stopwatch_obstacle3);
 					obstacle_pair3_spawned = 1;

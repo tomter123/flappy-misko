@@ -522,5 +522,22 @@ void OBJ_init_score_text(void)
 	score_text.font = (UG_FONT*) &FONT_8X12;    // pred errorjem je bil FONT_8X8 nimam pojma zakaj
 }
 
+uint16_t* RLE_decompress_image(uint16_t* compressed, size_t compressed_size, size_t original_size) {
+    uint16_t* decompressed = (uint16_t*)malloc(original_size);
+    if (!decompressed) return NULL;
 
+    size_t write_index = 0;
+    size_t read_index = 0;
+
+    while (read_index < compressed_size) {
+        uint16_t value = compressed[read_index++];
+        uint16_t run_length = compressed[read_index++];
+
+        for (size_t i = 0; i < run_length; i++) {
+            decompressed[write_index++] = value;
+        }
+    }
+
+    return decompressed;
+}
 // -------------- Private function implementations -------------

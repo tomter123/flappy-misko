@@ -15,8 +15,6 @@
 // -------------- User-defined parameters ----------------
 //
 // Tu uporabnik modula specificira parametre za delo s krmilnikom LCD zaslona ILI9341.
-
-
 // Potrebno je vključiti zglavno .h datoteko, kjer so definirani registri mikrokrmilnika,
 // ki ga uporabljamo.
 #include "stm32g4xx.h"

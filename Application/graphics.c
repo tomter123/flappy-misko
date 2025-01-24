@@ -101,7 +101,7 @@ void GFX_display_image_object(image_object_t *image, int16_t x, int16_t y)
 
 
 // coordinates (x_img,y_img) are given in the image coordinate system
-uint16_t GFX_get_image_pixel(image_object_t *img, int16_t x_img, int16_t y_img)
+uint16_t GFX_get_image_pixel(image_object_t *img, int16_t x_img, int16_t y_img )
 {
 	uint32_t i;
 
@@ -153,6 +153,8 @@ void GFX_get_image_part(image_object_t *img, int16_t x, int16_t y, uint16_t size
 	}
 
 }
+
+
 
 
 
@@ -409,68 +411,70 @@ uint8_t GFX_move_gfx_object_center(graphic_object_t *gfx_object, int16_t x, int1
 
 uint8_t GFX_set_gfx_object_location(graphic_object_t *gfx_object, int16_t x, int16_t y)
 {
-    // check if the new location is within restrictions
-    if (GFX_is_location_inside_object_restrictions(&gfx_object->top_left_limits, x, y))
-    {
-        // within restrictions -> object can be placed
-        // set the new object location
-        gfx_object->location.x_min = x;
-        gfx_object->location.y_min = y;
-
-        gfx_object->location.x_max = gfx_object->location.x_min + gfx_object->image.size_x;
-        gfx_object->location.y_max = gfx_object->location.y_min + gfx_object->image.size_y;
-
-        gfx_object->location.x_center = gfx_object->location.x_min + gfx_object->image.size_x / 2;
-        gfx_object->location.y_center = gfx_object->location.y_min + gfx_object->image.size_y / 2;
-
-        return 1; // placement successful
-    }
-
-    else
-    {
-		if((gfx_object == &obstacle_pair1.top || gfx_object == &obstacle_pair1.bottom || 
-			gfx_object == &obstacle_pair2.top || gfx_object == &obstacle_pair2.bottom || 
-			gfx_object == &obstacle_pair3.top || gfx_object == &obstacle_pair3.bottom) && (y < 0 || x < 400)) 
-   		{
-			int16_t offset = 0;
-			
-			if (y < 0) 
-			{
-				offset = -y;
-				gfx_object->location.y_min = 0;
-				gfx_object->location.y_max = gfx_object->image.size_y - offset;
-				gfx_object->image.image_array += offset * gfx_object->image.size_x;
-				gfx_object->image.size_y -= offset;
-			}
-
-			else if (y + gfx_object->image.size_y > 240) 	 
-			{
-				offset = (y + gfx_object->image.size_y) - 240;
-				gfx_object->location.y_min = y;
-				gfx_object->location.y_max = 240;
-				gfx_object->image.size_y -= offset;
-			} 
-			
-			else 
-			{
-				gfx_object->location.y_min = y;
-				gfx_object->location.y_max = y + gfx_object->image.size_y;
-			}
-
-			gfx_object->location.y_center = (gfx_object->location.y_min + gfx_object->location.y_max) / 2;
-
+		// check if the new location is within restrictions
+		if ((GFX_is_location_inside_object_restrictions(&gfx_object->top_left_limits, x, y))&&(x + gfx_object->image.size_x < 320))
+		{
+			// within restrictions -> object can be placed
+			// set the new object location
 			gfx_object->location.x_min = x;
+			gfx_object->location.y_min = y;
+
 			gfx_object->location.x_max = gfx_object->location.x_min + gfx_object->image.size_x;
+			gfx_object->location.y_max = gfx_object->location.y_min + gfx_object->image.size_y;
 
-			//Update the image size
-			//gfx_object->image.size = gfx_object->image.size_x * gfx_object->image.size_y;
+			gfx_object->location.x_center = gfx_object->location.x_min + gfx_object->image.size_x / 2;
+			gfx_object->location.y_center = gfx_object->location.y_min + gfx_object->image.size_y / 2;
 
-			return 1; // placement of obstacle successful
-    	}
-		
-		// new location is outside the restrictions -> object will not be placed
-		return 0;	// placement not successful
-    }
+			return 1; // placement successful
+		}
+
+		else
+		{
+			if((gfx_object == &obstacle_pair1.top || gfx_object == &obstacle_pair1.bottom ||
+				gfx_object == &obstacle_pair2.top || gfx_object == &obstacle_pair2.bottom ||
+				gfx_object == &obstacle_pair3.top || gfx_object == &obstacle_pair3.bottom) && (y < 0 || x < 400))
+			{
+				int16_t offset = 0;
+
+				if (y < 0)
+				{
+					offset = -y;
+					gfx_object->location.y_min = 0;
+					gfx_object->location.y_max = gfx_object->image.size_y - offset;
+					gfx_object->image.image_array += offset * gfx_object->image.size_x;
+					gfx_object->image.size_y -= offset;
+				}
+
+				else if (y + gfx_object->image.size_y > 240)
+				{
+					offset = (y + gfx_object->image.size_y) - 240;
+					gfx_object->location.y_min = y;
+					gfx_object->location.y_max = 240;
+					gfx_object->image.size_y -= offset;
+				}
+
+				else
+				{
+					gfx_object->location.y_min = y;
+					gfx_object->location.y_max = y + gfx_object->image.size_y;
+				}
+
+				gfx_object->location.y_center = (gfx_object->location.y_min + gfx_object->location.y_max) / 2;
+
+				gfx_object->location.x_min = x;
+				gfx_object->location.x_max = gfx_object->location.x_min + gfx_object->image.size_x;
+
+				//Update the image size
+				//gfx_object->image.size = gfx_object->image.size_x * gfx_object->image.size_y;
+
+				return 1; // placement of obstacle successful
+			}
+			
+			// new location is outside the restrictions -> object will not be placed
+			return 0;	// placement not successful
+		}
+	
+
 }
 
 
@@ -745,7 +749,7 @@ void GFX_allocate_partial_frame_buffer_for_display_area(location_t	*area_locatio
 
 
 void GFX_copy_image_part_to_partial_frame_buffer( image_object_t *image )
-{
+{	
 	GFX_get_image_part( image, partial_frame_buffer.location.x_min, partial_frame_buffer.location.y_min, partial_frame_buffer.image.size_x, partial_frame_buffer.image.size_y, partial_frame_buffer.image.image_array);
 }
 
@@ -767,10 +771,10 @@ void GFX_partial_frame_buffer_overlay_object(graphic_object_t *object)
 	// overlay the graphical object image over the part of the existing image in the partial frame buffer
 
 	// go over all the required rows of the partial frame buffer image
-	for( uint16_t y_abs = partial_frame_buffer.location.y_min; y_abs < partial_frame_buffer.location.y_max; y_abs++ )
+	for( uint16_t y_abs = partial_frame_buffer.location.y_min; (y_abs < partial_frame_buffer.location.y_max); y_abs++ )
 	{
 		// for each row, go over all required columns
-		for( uint16_t x_abs = partial_frame_buffer.location.x_min; x_abs < partial_frame_buffer.location.x_max; x_abs++ )
+		for( uint16_t x_abs = partial_frame_buffer.location.x_min; (x_abs < partial_frame_buffer.location.x_max); x_abs++ )
 		{
 			// overlay the object pixel
 
@@ -778,7 +782,6 @@ void GFX_partial_frame_buffer_overlay_object(graphic_object_t *object)
 			GFX_absolute_coordinates_to_object_coordinates(object, x_abs, y_abs, &x_obj, &y_obj);
 			pixel = GFX_get_image_pixel( &object->image, x_obj, y_obj);
 
-			// overlay the pixel only if it is not transparent
 			if ( pixel != IMG_TRANSPARENT_COLOR_CODE)
 				partial_frame_buffer.image.image_array[i] = pixel;
 
